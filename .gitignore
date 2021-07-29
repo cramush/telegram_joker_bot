@@ -1,0 +1,5 @@
+db
+venv
+.idea
+secrets.yaml
+docker-entrypoint-initdb.d
