@@ -3,6 +3,7 @@ from config import telegram_token
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 import pymongo
 import config
+from user_info import user_info
 
 client = pymongo.MongoClient(f"mongodb://{config.login}:{config.password}@{config.host}/{config.db_name}")
 db = client["jokes_db"]
@@ -27,6 +28,8 @@ async def get_random_joke(message: types.Message):
     random_joke = collection.aggregate([{"$sample": {"size": 1}}])
     random_joke = {"content": el["content"] for el in random_joke}
     random_joke = random_joke["content"]
+
+    user_info(message)
 
     if len(random_joke) > 4096:
         # print(len(random_joke))
