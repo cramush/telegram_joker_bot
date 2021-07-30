@@ -3,11 +3,13 @@ from config import telegram_token
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 import pymongo
 import config
-from user_info import user_info
+from loguru import logger
 
 client = pymongo.MongoClient(f"mongodb://{config.login}:{config.password}@{config.host}/{config.db_name}")
 db = client["jokes_db"]
 collection = db["jokes"]
+info_db = client["users_info_db"]
+info_collection = info_db["info"]
 
 bot = Bot(token=telegram_token)
 dp = Dispatcher(bot)
@@ -41,5 +43,30 @@ async def get_random_joke(message: types.Message):
         await bot.send_message(message.from_user.id, random_joke)
 
 
+def user_info(message):
+    info_from = message["from"]
+
+    info_id = info_from["id"]
+    info_first_name = info_from["first_name"]
+    info_username = info_from["username"]
+    info_date = message["date"]
+    info_text = message["text"]
+
+    user_info_container = {
+        "user_id": info_id,
+        "first_name": info_first_name,
+        "username": info_username,
+        "date": info_date,
+        "content": info_text
+    }
+    info_collection.insert_one(user_info_container)
+
+    for_logger = {
+        "username": info_username
+    }
+    logger.info(for_logger)
+
+
 if __name__ == '__main__':
     executor.start_polling(dp)
+

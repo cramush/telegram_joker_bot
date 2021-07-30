@@ -7,3 +7,7 @@ password = secrets["password"]
 host = secrets["host"]
 db_name = secrets["db_name"]
 telegram_token = secrets["telegram_token"]
+
+yandex = secrets["yandex"]
+ya_password = secrets["ya_password"]
+google = secrets["google"]

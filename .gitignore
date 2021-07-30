@@ -3,3 +3,4 @@ venv
 .idea
 secrets.yaml
 docker-entrypoint-initdb.d
+daily_users_info.txt
