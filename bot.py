@@ -34,12 +34,10 @@ async def get_random_joke(message: types.Message):
     user_info(message)
 
     if len(random_joke) > 4096:
-        # print(len(random_joke))
         trim_joke = (random_joke[0+i:4096+i] for i in range(0, len(random_joke), 4096))
         for element in trim_joke:
             await bot.send_message(message.from_user.id, element)
     else:
-        # print(len(random_joke))
         await bot.send_message(message.from_user.id, random_joke)
 
 
@@ -62,6 +60,7 @@ def user_info(message):
     info_collection.insert_one(user_info_container)
 
     for_logger = {
+        "first_name": info_first_name,
         "username": info_username
     }
     logger.info(for_logger)
