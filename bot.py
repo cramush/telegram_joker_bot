@@ -6,10 +6,9 @@ import config
 from loguru import logger
 
 client = pymongo.MongoClient(f"mongodb://{config.login}:{config.password}@{config.host}/{config.db_name}")
-db = client["jokes_db"]
-collection = db["jokes"]
-info_db = client["users_info_db"]
-info_collection = info_db["info"]
+db = client["my_mongo"]
+jokes_collection = db["jokes"]
+info_collection = db["info"]
 
 bot = Bot(token=telegram_token)
 dp = Dispatcher(bot)
@@ -27,7 +26,7 @@ async def start(message: types.Message):
 
 @dp.message_handler()
 async def get_random_joke(message: types.Message):
-    random_joke = collection.aggregate([{"$sample": {"size": 1}}])
+    random_joke = jokes_collection.aggregate([{"$sample": {"size": 1}}])
     random_joke = {"content": el["content"] for el in random_joke}
     random_joke = random_joke["content"]
 
@@ -68,4 +67,3 @@ def user_info(message):
 
 if __name__ == '__main__':
     executor.start_polling(dp)
-

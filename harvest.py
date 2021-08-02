@@ -1,3 +1,4 @@
+# add cron
 import pymongo
 import config
 import smtplib
@@ -6,12 +7,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 client = pymongo.MongoClient(f"mongodb://{config.login}:{config.password}@{config.host}/{config.db_name}")
-db = client["users_info_db"]
+db = client["my_mongo"]
 info_collection = db["info"]
-
-# import schedule
-# schedule.every().day.at("10:00").do(harvest)
-# add cron
 
 
 def harvest_info():
