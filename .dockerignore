@@ -1,0 +1,5 @@
+.gitignore
+cron manual.txt
+daily_users_info.txt
+docker manual.txt
+secrets.yaml

@@ -1,0 +1,9 @@
+bot:
+    sudo chmod -R 777 db
+    docker build . -f Dockerfile.bot -t bot
+    docker run -it bot
+
+migrate:
+    sudo chmod 777 -R db
+    docker build . -f Dockerfile.migrate -t mongo_migrate
+    docker run -it --network my_network mongo_migrate

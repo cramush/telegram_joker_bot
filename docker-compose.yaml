@@ -1,11 +1,20 @@
-version: '3.1'
+version: "3.9"
 
 services:
 
-  db:
+  my_mongo:
     image: mongo:latest
+    restart: on-failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"
     volumes:
       - ./db:/data/db
-      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - joker_network
+
+networks:
+  joker_network:
+    name: joker_network
